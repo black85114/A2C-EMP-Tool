@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECAD模型備份替換工具 v8</title>
+    <script src="creojs.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">   
+    <script type="text/creojs" src="emnemp.js"></script>
+	<script src="web.js"></script>
+
+</head>
+<body>
+
+<div class="container">
+    <img src="https://embedded.avnet.com/wp-content/uploads/2022/09/gigaipc_logo.png" alt="gigaipc logo" height="33" width="150" style="text-align: center;">
+    <h1>EMN/EMP 模型備份替換工具 v8 (Git)</h1>
+    
+    <!-- Tab 選單 -->
+    <div class="tab-container">
+        <div class="tab-buttons">
+            <button class="tab-button active" onclick="switchTab('main-tab')">EMP Translator</button>
+            <button class="tab-button" onclick="switchTab('deploy-tab')">初次使用部屬</button>
+        </div>
+        
+        <!-- 主要功能 Tab -->
+        <div id="main-tab" class="tab-content active">
+            <!-- 切換配置顯示按鈕 -->
+            <button class="toggle-config-btn" id="toggleConfigBtn" onclick="toggleConfigSection()">配置設定</button>
+            
+            <!-- EMP 替換工具配置設定區塊 -->
+            <div class="config-section" id="configSection">
+                <h3>EMP 替換工具配置設定</h3>
+                
+                <div class="config-row">
+                    <div class="config-item">
+                        <div class="switch-label">
+                            <label class="switch">
+                                <input type="checkbox" id="ftpLibEnabled" checked>
+                                <span class="slider"></span>
+                            </label>
+                            <span>FTP Library 功能</span>
+                        </div>
+                    </div>
+                    <div class="config-item">
+                        <div class="switch-label">
+                            <label class="switch">
+                                <input type="checkbox" id="localLibEnabled" checked>
+                                <span class="slider"></span>
+                            </label>
+                            <span>本地 Library 功能</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="config-row">
+                    <div class="config-item">
+                        <div class="switch-label">
+                            <label class="switch">
+                                <input type="checkbox" id="copyMatchingSourceFolders">
+                                <span class="slider"></span>
+                            </label>
+                            <span>來源資料夾複製</span>
+                        </div>
+                    </div>
+                    <div class="config-item">
+                        <div class="switch-label">
+                            <label class="switch">
+                                <input type="checkbox" id="autoZeroRenameEnabled" checked>
+                                <span class="slider"></span>
+                            </label>
+                            <span>.asm 自動重新命名</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="config-row">
+                    <div class="config-item">
+                        <div class="switch-label">
+                            <label class="switch">
+                                <input type="checkbox" id="selfDestructEnabled" checked>
+                                <span class="slider"></span>
+                            </label>
+                            <span>腳本自動刪除</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="config-row">
+                    <div class="config-item">
+                        <label for="statusIP">備用 IP 位址:</label>
+                        <input type="text" id="statusIP" value="10.1.182.31">
+                       
+                    </div>
+                    <div class="config-item">
+                        <label for="nasHostName">NAS 主機名稱:</label>
+                        <input type="text" id="nasHostName" value="ipcfile.gigaipc.intra">
+                        
+                    </div>
+                </div>
+                
+                <div class="config-row">
+                    <div class="config-item">
+                        <label for="localLibAddr">本地 Library 路徑:</label>
+                        <input type="text" id="localLibAddr" value="D:\GIGAIPC_3D\Wayne_LIB" >
+                        
+                    </div>
+                </div>
+                
+                <button class="save-config-btn" id="saveConfigBtn">儲存配置</button><span style="font-size:12px;color:gray;">配置檔 EMP-Config.ini 儲存至D:/</span>
+            </div>
+            
+            <div id="currentModelInfo" class="current-model">
+                正在載入模型資訊...
+            </div>
+            
+            <div id="directoryInfo" class="directory-info">
+                正在載入目錄資訊...
+            </div>
+
+            <div class="checkbox-options">
+                <div class="form-group checkbox-item">
+                    <label class="switch">
+                        <input type="checkbox" id="runDelMacroCheckbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                    <label for="runDelMacroCheckbox">刪除定位零件 (預設)</label>
+                </div>
+                <div class="form-group checkbox-item">
+                    <label class="switch">
+                        <input type="checkbox" id="runColorMacroCheckbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                    <label for="runColorMacroCheckbox">PCB板著色 (金屬藍)</label>
+                </div>
+            </div>
+                    
+            <div class="form-group"> 
+                <button id="useCurrentModelBtn">執行模型備份+替換EMP</button>
+            </div>
+
+            <div class="status" id="status">
+                <div class="status-message">準備就緒，請選擇操作。</div>
+            </div>
+        </div>
+        
+        <!-- 一鍵部署 Tab -->
+        <div id="deploy-tab" class="tab-content">
+            <div class="config-section" style="display: block;">
+                <h3>一鍵部署Creo Tool</h3>
+                <p>此功能將依序執行以下操作：</p>
+                <ol>
+                    <li><strong>Import Mapkey.pro</strong> - 匯入 Creo 快捷鍵設定</li>
+                    <li><strong>Import Ribbon設定檔</strong> - 匯入功能列配置</li>
+                    <li><strong>PowerShell 驗證Batch檔</strong> - 執行驗證程序</li>
+                </ol>
+                
+                <button class="deploy-btn" id="deployCreoToolBtn">🚀 一鍵部署Creo Tool (第一次使用)</button>
+            </div>
+            
+            <div class="status" id="deployStatus">
+                <div class="status-message">準備執行部署操作。</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
