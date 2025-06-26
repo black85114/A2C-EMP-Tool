@@ -44,12 +44,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const runColorMacroCheckbox = document.getElementById('runColorMacroCheckbox');
     const saveConfigBtn = document.getElementById('saveConfigBtn');
     const deployCreoToolBtn = document.getElementById('deployCreoToolBtn');
+	loadFromStorage();
 	
 	// 設置 Creo.JS 初始化完成後的回調
 	CreoJS.$ADD_ON_LOAD(function() {
 		updateCurrentModelInfo();
 		updateDirectoryInfo();
-		loadFromStorage();
 	});
 	
 	// 儲存配置按鈕事件
