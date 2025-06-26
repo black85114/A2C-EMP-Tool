@@ -28,6 +28,15 @@ function toggleConfigSection() {
         toggleBtn.textContent = '🔧 隱藏 EMP 配置設定';
     }
 }
+
+// 從 localStorage 載入先前儲存的值
+function loadFromStorage() {
+    const empLibraryPath = localStorage.getItem('emp-library-path');
+    if (empLibraryPath) {
+	document.getElementById('emp-library-path').value = empLibraryPath;
+    }
+}
+
 // 初始化頁面
 document.addEventListener('DOMContentLoaded', function() {
     const button = document.getElementById('useCurrentModelBtn');
@@ -40,6 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	CreoJS.$ADD_ON_LOAD(function() {
 		updateCurrentModelInfo();
 		updateDirectoryInfo();
+		loadFromStorage();
 	});
 	
 	// 儲存配置按鈕事件
@@ -59,6 +69,10 @@ document.addEventListener('DOMContentLoaded', function() {
 				statusIP: document.getElementById('statusIP').value || '10.1.182.31',
 				localLibAddr: document.getElementById('localLibAddr').value.replace(/\\/g, '\\\\') || 'D:\\GIGAIPC_3D\\Wayne_LIB'
 			};
+			const empLibraryPath = document.getElementById('localLibAddr').value;
+			if (empLibraryPath.trim() !== '') {
+		                localStorage.setItem('emp-library-path', empLibraryPath);
+		        }
 			
 			// 呼叫 Creo.JS 函數更新配置檔案
 			const result = await  CreoJS.updateConfigFile(configData);
