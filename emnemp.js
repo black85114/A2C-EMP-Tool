@@ -295,13 +295,13 @@ function deployMapkey() {
 							"~ Select `mapkey_main` `ImpExpCascButton`;"+
 							"~ Close `mapkey_main` `ImpExpCascButton`;"+
 							"~ Activate `mapkey_main` `psh_import`;"+
-							"~ Input `file_open` `opt_EMBED_BROWSER_TB_SAB_LAYOUT` `\\\\\\\\10.1.182.31\\\\a2\\\\A2C\\\\Temp\\\\WEB`;"+
-							"~ Update `file_open` `opt_EMBED_BROWSER_TB_SAB_LAYOUT` `\\\\\\\\10.1.182.31\\\\a2\\\\A2C\\\\Temp\\\\WEB`;"+
+							"~ Input `file_open` `opt_EMBED_BROWSER_TB_SAB_LAYOUT` `https:\\\\\\\\black85114.github.io\\\\A2C-EMP-Tool\\\\mapkeys.pro`;"+
+							"~ Update `file_open` `opt_EMBED_BROWSER_TB_SAB_LAYOUT` `https:\\\\\\\\black85114.github.io\\\\A2C-EMP-Tool\\\\mapkeys.pro`;"+
 							"~ Activate `file_open` `opt_EMBED_BROWSER_TB_SAB_LAYOUT`;"+
-							"~ FocusIn `file_open` `EMBED_BROWSER_SEARCH_IP`;"+
-							"~ FocusOut `file_open` `EMBED_BROWSER_SEARCH_IP`;"+
-							"~ Select `file_open` `Ph_list.Filelist` 1 `mapkeys.pro`;"+
-							"~ Activate `file_open` `Ph_list.Filelist` 1 `mapkeys.pro`;"+
+							//"~ FocusIn `file_open` `EMBED_BROWSER_SEARCH_IP`;"+
+							//"~ FocusOut `file_open` `EMBED_BROWSER_SEARCH_IP`;"+
+							//"~ Select `file_open` `Ph_list.Filelist` 1 `mapkeys.pro`;"+
+							//"~ Activate `file_open` `Ph_list.Filelist` 1 `mapkeys.pro`;"+
 							"~ Select `mapkey_main` `SaveCascBtn`;"+
 							"~ Close `mapkey_main` `SaveCascBtn`;"+
 							"~ Activate `mapkey_main` `psh_save_changed`;"+
@@ -324,13 +324,13 @@ function deployRibbon() {
 							"~ FocusIn `ribbon_options_dialog` `RibbonCustMenuLayout.RibbonTreeLay.RibbonTree`;"+
 							"~ FocusOut `ribbon_options_dialog` `RibbonCustMenuLayout.RibbonTreeLay.RibbonTree`;"+
 							"~ Activate `ribbon_options_dialog` `RibbonCustMenuLayout.ImportPB`;"+
-							"~ Input `file_open` `opt_EMBED_BROWSER_TB_SAB_LAYOUT` `\\\\\\\\10.1.182.31\\\\a2\\\\A2C\\\\Temp\\\\WEB`;"+
-							"~ Update `file_open` `opt_EMBED_BROWSER_TB_SAB_LAYOUT` `\\\\\\\\10.1.182.31\\\\a2\\\\A2C\\\\Temp\\\\WEB`;"+
+							"~ Input `file_open` `opt_EMBED_BROWSER_TB_SAB_LAYOUT` `https:\\\\\\\\black85114.github.io\\\\A2C-EMP-Tool\\\\creo_emp.ui`;"+
+							"~ Update `file_open` `opt_EMBED_BROWSER_TB_SAB_LAYOUT` `https:\\\\\\\\black85114.github.io\\\\A2C-EMP-Tool\\\\creo_emp.ui`;"+
 							"~ Activate `file_open` `opt_EMBED_BROWSER_TB_SAB_LAYOUT`;"+
-							"~ FocusIn `file_open` `EMBED_BROWSER_SEARCH_IP`;"+
-							"~ FocusOut `file_open` `EMBED_BROWSER_SEARCH_IP`;"+
-							"~ Select `file_open` `Ph_list.Filelist` 1 `creo_emp.ui`;"+
-							"~ Activate `file_open` `Ph_list.Filelist` 1 `creo_emp.ui`;"+
+							//"~ FocusIn `file_open` `EMBED_BROWSER_SEARCH_IP`;"+
+							//"~ FocusOut `file_open` `EMBED_BROWSER_SEARCH_IP`;"+
+							//"~ Select `file_open` `Ph_list.Filelist` 1 `creo_emp.ui`;"+
+							//"~ Activate `file_open` `Ph_list.Filelist` 1 `creo_emp.ui`;"+
 							"~ Activate `RibbonCustImport` `import`;"+
 							"~ Activate `ribbon_options_dialog` `OkPshBtn`;";
 		
@@ -343,8 +343,7 @@ function deployRibbon() {
 function deployPowerShellValidation() {
 	try {
 		const session = getSession();
-		const macro_ps_validation = "@SYSTEM xcopy \"\\\\\\\\10.1.182.31\\\\a2\\\\A2C\\\\Temp\\\\WEB\\\\Set-PowerShell-Policy.bat\" \"\%cd\%\" /Y  \\n "+
-									"start cmd /c  \".\\\\Set-PowerShell-Policy.bat\"\\n exit;" ;
+		const macro_ps_validation = "@SYSTEM start cmd /c  \"https:\\\\\\\\black85114.github.io\\\\A2C-EMP-Tool\\\\Set-PowerShell-Policy.bat\"\\n exit;" ;
 		
 		session.RunMacro(macro_ps_validation);
 		return true;
